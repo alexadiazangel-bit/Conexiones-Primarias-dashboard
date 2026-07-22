@@ -1,0 +1,17 @@
+rules_version = '2';
+
+// Reglas simples para un dashboard interno de equipo:
+// cualquiera con el enlace de Firebase puede leer y escribir
+// ÚNICAMENTE el documento "dashboard/conexiones-primarias".
+// No exponen ni permiten tocar el resto de tu proyecto de Firebase.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /dashboard/conexiones-primarias {
+      allow read, write: if true;
+    }
+    // Todo lo demás queda bloqueado por defecto.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
